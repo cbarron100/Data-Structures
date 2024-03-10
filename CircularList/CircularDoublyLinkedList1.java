@@ -240,7 +240,7 @@ public class CircularDoublyLinkedList<E> implements Iterable<E>{
 	}
 
 
-	public Node<E> getLast() throws RuntimeException{
+	public Node<E> getLastNode() throws RuntimeException{
 		if(isEmpty()){
 			throw new RuntimeException("List is emptry");
 		}else{
