@@ -247,4 +247,89 @@ public class CircularDoublyLinkedList<E> implements Iterable<E>{
 			return tail;
 		}
 	}
+
+
+	public Node<E> getNextNode(Node<E> node) throws RuntimeException{
+		if(contains(node.data)){
+			Node<E> curNode = head;
+			while(curNode != tail){
+				if(curNode == node){
+					return curNode.next;
+				}
+				curNode = curNode.next;
+			}
+		}else{
+			throw new RuntimeException("Node is not in list");
+		}
+	}
+
+	public Node<E> getPreviousNode(Node<E> node) throws RuntimeException{
+		if(contains(node.data)){
+			Node<E> curNode = head;
+			while(!curNode.equals(tail)){
+				if(curNode.equals(node)){
+					return curNode.previous;
+				}
+				curNode = curNode.next;
+			}
+			if(curNode.equals(node)){//tail condition
+				return curNode.previous;
+			}
+		}else{
+			throw new RuntimeException("Ndoe is not in list");
+		}
+	}
+
+
+	public Node<E> getNode(int index) throws RuntimeException{
+		if(index < 0 || index >= this.size){
+			throw new RuntimeException("Index out of range");
+		}else{
+			Node<E> curNode = head;
+			for(int i = 0; i < index; i++){
+				curNode = curNode.next;
+			}
+			return curNode;
+		}
+	}
+
+	public void insertAfter(Node<E> node, E element) throws RuntimeException{
+		if(contains(node.data)){
+			Node<E> newNode = new Node(element);
+			Node<E> curNode = head;
+			while(curNode != node);
+				curNode = curNode.next;
+			}
+			curNode.next.previous = newNode;
+			newNode.next = curNode.next.next;
+			curNode.next = newNode;
+			newNode.previous = curNode;
+
+		}else{
+			throw new RuntimeException("Node is not in list");
+
+	}
+
+	public void removeAfter(Node<E> node) throws RuntimeException{
+		if(contains(node.data)){
+			Node<E> curNode = head;
+			if(node.equals(tail)){
+				this.removeFirst();
+			}else{
+				while(!curNode.equals(tail)){
+					if(curNode.equals(node)){
+						curNode.next = curNode.next.next;
+						curNode.next.previous = curNode;
+					}
+					if(curNode.next.next.equals(tail)){
+						this.removeLast();
+					}
+					curNode = curNode.next;
+				}
+			}
+		}else{
+			throw new RuntimeException("Node is not in list");
+	}
 }
+
+
