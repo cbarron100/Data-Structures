@@ -252,12 +252,13 @@ public class CircularDoublyLinkedList<E> implements Iterable<E>{
 	public Node<E> getNextNode(Node<E> node) throws RuntimeException{
 		if(contains(node.data)){
 			Node<E> curNode = head;
-			while(curNode != tail){
-				if(curNode == node){
+			while(!curNode.equals(tail)){
+				if(curNode.equals(node)){
 					return curNode.next;
 				}
 				curNode = curNode.next;
 			}
+			return null;
 		}else{
 			throw new RuntimeException("Node is not in list");
 		}
@@ -275,6 +276,7 @@ public class CircularDoublyLinkedList<E> implements Iterable<E>{
 			if(curNode.equals(node)){//tail condition
 				return curNode.previous;
 			}
+			return null;
 		}else{
 			throw new RuntimeException("Ndoe is not in list");
 		}
@@ -297,7 +299,7 @@ public class CircularDoublyLinkedList<E> implements Iterable<E>{
 		if(contains(node.data)){
 			Node<E> newNode = new Node(element);
 			Node<E> curNode = head;
-			while(curNode != node);
+			while(curNode != node){
 				curNode = curNode.next;
 			}
 			curNode.next.previous = newNode;
@@ -308,6 +310,7 @@ public class CircularDoublyLinkedList<E> implements Iterable<E>{
 		}else{
 			throw new RuntimeException("Node is not in list");
 
+		}
 	}
 
 	public void removeAfter(Node<E> node) throws RuntimeException{
@@ -329,6 +332,35 @@ public class CircularDoublyLinkedList<E> implements Iterable<E>{
 			}
 		}else{
 			throw new RuntimeException("Node is not in list");
+		}
+
+	}
+
+
+	public Iterator<E> iterator(){
+		return new Iterator<E>(){
+			Node<E> curNode = head;
+
+			@Override
+			public boolean hasNext(){
+				return !curNode.equals(tail);
+			}
+
+			@Override
+			public E next(){
+				if(hasNext()){
+					E data = curNode.data;
+					curNode = curNode.next;
+					return data;
+				}
+				return null;
+			}
+
+			@Override
+			public void remove(){
+				throw new RuntimeException("Unnsopported operation");
+			}
+		};
 	}
 }
 
